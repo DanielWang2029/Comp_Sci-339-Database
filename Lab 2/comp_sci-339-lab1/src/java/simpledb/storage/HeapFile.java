@@ -21,7 +21,9 @@ import java.util.*;
  * @author Sam Madden
  */
 public class HeapFile implements DbFile {
-
+    private File file;
+    private TupleDesc td;
+    private RandomAccessFile rafile;
     /**
      * Constructs a heap file backed by the specified file.
      * 
@@ -31,6 +33,16 @@ public class HeapFile implements DbFile {
      */
     public HeapFile(File f, TupleDesc td) {
         // some code goes here
+        this.file = f;
+        this.td = td;
+        try {
+            this.rafile = new RandomAccessFile(f, "rw");
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException("random access file creation failed");
+        }
+
+        // random access file? https://docs.oracle.com/javase/7/docs/api/java/io/RandomAccessFile.html
+
     }
 
     /**
@@ -40,7 +52,7 @@ public class HeapFile implements DbFile {
      */
     public File getFile() {
         // some code goes here
-        return null;
+        return this.file;
     }
 
     /**
@@ -54,7 +66,7 @@ public class HeapFile implements DbFile {
      */
     public int getId() {
         // some code goes here
-        throw new UnsupportedOperationException("implement this");
+        return this.getFile().getAbsoluteFile().hashCode();
     }
 
     /**
@@ -64,13 +76,27 @@ public class HeapFile implements DbFile {
      */
     public TupleDesc getTupleDesc() {
         // some code goes here
-        throw new UnsupportedOperationException("implement this");
+        return this.td;
     }
 
     // see DbFile.java for javadocs
     public Page readPage(PageId pid) {
         // some code goes here
-        return null;
+        //First we seek the file based off offset
+        byte[] pagedata = HeapPage.createEmptyPageData();
+
+        try{ //intellij says cast to long. computer smarter than me. long it goes.
+            this.rafile.seek((long) BufferPool.getPageSize() * pid.getPageNumber());
+            //now we get the data from the read
+            for(int i = 0; i < pagedata.length; i++)
+                pagedata[i] = rafile.readByte();
+            //now we make the page
+            System.out.println(pid.getTableId());
+            System.out.println(pid.getPageNumber());
+            return new HeapPage((HeapPageId) pid, pagedata);
+        } catch (IOException e) {
+            throw new RuntimeException("readpage is shitting itself, try again");
+        }
     }
 
     // see DbFile.java for javadocs
@@ -84,7 +110,11 @@ public class HeapFile implements DbFile {
      */
     public int numPages() {
         // some code goes here
-        return 0;
+        try {
+            return (int) (this.rafile.length() / BufferPool.getPageSize());
+        } catch (IOException e) {
+            throw new RuntimeException("BufferPool issue probably, L102");
+        }
     }
 
     // see DbFile.java for javadocs
@@ -106,7 +136,77 @@ public class HeapFile implements DbFile {
     // see DbFile.java for javadocs
     public DbFileIterator iterator(TransactionId tid) {
         // some code goes here
-        return null;
+        class Hfi implements DbFileIterator {
+            private HeapFile hf;
+            private TransactionId tid;
+            private boolean isOpen;
+            private Page currentPage;
+            private int currentPageIndex;
+            private PageId currentPageId;
+            private Iterator<Tuple> currentPageIterator;
+
+            public Hfi(HeapFile hf, TransactionId tid) {
+                this.hf = hf;
+                this.tid = tid;
+                this.isOpen = false;
+            }
+
+            @Override
+            public void open() throws DbException, TransactionAbortedException {
+                try {
+                    this.currentPageIndex = 0;
+                    this.currentPageId = new HeapPageId(this.hf.getId(), this.currentPageIndex);
+                    this.currentPage = Database.getBufferPool().getPage(this.tid, this.currentPageId, Permissions.READ_WRITE);
+                    this.currentPageIterator = ((HeapPage) this.currentPage).iterator();
+                    this.isOpen = true;
+                } catch (Exception e) {
+                    throw new DbException("");
+                }
+            }
+
+            @Override
+            public boolean hasNext() throws DbException, TransactionAbortedException {
+                if (!this.isOpen) {return false;}
+                try {
+                    if (this.currentPageIterator.hasNext()) {return true;}
+                    if (this.currentPageIndex < this.hf.numPages() - 1) {return true;}
+                } catch (Exception e) {
+                    throw new DbException("");
+                }
+                return false;
+            }
+
+            @Override
+            public Tuple next() throws DbException, TransactionAbortedException, NoSuchElementException {
+                if (!this.isOpen) {throw new NoSuchElementException("Calling next when closed");}
+                try {
+                    if (this.currentPageIterator.hasNext()) {return this.currentPageIterator.next();}
+                    while ((!this.currentPageIterator.hasNext()) && this.currentPageIndex < this.hf.numPages() - 1) {
+                        this.currentPageIndex++;
+                        this.currentPageId = new HeapPageId(this.hf.getId(), this.currentPageIndex);
+                        this.currentPage = Database.getBufferPool().getPage(this.tid, this.currentPageId, Permissions.READ_WRITE);
+                        this.currentPageIterator = ((HeapPage) this.currentPage).iterator();
+                    }
+                    if (this.currentPageIterator.hasNext()) {return this.currentPageIterator.next();}
+                    else {throw new NoSuchElementException();}
+                } catch (Exception e) {
+                    throw new DbException("");
+                }
+            }
+
+            @Override
+            public void rewind() throws DbException, TransactionAbortedException {
+                this.close();
+                this.open();
+            }
+
+            @Override
+            public void close() {
+                this.isOpen = false;
+            }
+        }
+
+        return new Hfi(this, tid);
     }
 
 }

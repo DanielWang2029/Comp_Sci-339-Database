@@ -1,0 +1,415 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuite errors="0" failures="0" hostname="DanielWang-Laptop" name="simpledb.systemtest.ScanTest" skipped="0" tests="4" time="2.193" timestamp="2022-02-13T05:58:52">
+  <properties>
+    <property name="testd" value="C:\Users\danie\OneDrive - Northwestern University\Desktop\2021-2022 Academic Year\Winter 2022\Comp_Sci 339\Lab 2\comp_sci-339-lab1\test" />
+    <property name="ant.library.dir" value="C:\Program Files\JetBrains\IntelliJ IDEA 2021.3.2\lib\ant\lib" />
+    <property name="sourceversion" value="1.8" />
+    <property name="ant.file.type" value="file" />
+    <property name="java.specification.version" value="14" />
+    <property name="lib" value="C:\Users\danie\OneDrive - Northwestern University\Desktop\2021-2022 Academic Year\Winter 2022\Comp_Sci 339\Lab 2\comp_sci-339-lab1\lib" />
+    <property name="ant.project.name" value="simpledb" />
+    <property name="sun.cpu.isalist" value="amd64" />
+    <property name="sun.jnu.encoding" value="GBK" />
+    <property name="java.class.path" value="C:\Users\danie\OneDrive - Northwestern University\Desktop\2021-2022 Academic Year\Winter 2022\Comp_Sci 339\Lab 2\comp_sci-339-lab1\bin\src;C:\Users\danie\OneDrive - Northwestern University\Desktop\2021-2022 Academic Year\Winter 2022\Comp_Sci 339\Lab 2\comp_sci-339-lab1\lib\jline-0.9.94.jar;C:\Users\danie\OneDrive - Northwestern University\Desktop\2021-2022 Academic Year\Winter 2022\Comp_Sci 339\Lab 2\comp_sci-339-lab1\bin\test;C:\Users\danie\OneDrive - Northwestern University\Desktop\2021-2022 Academic Year\Winter 2022\Comp_Sci 339\Lab 2\comp_sci-339-lab1\lib\junit-4.13.1.jar;C:\Users\danie\OneDrive - Northwestern University\Desktop\2021-2022 Academic Year\Winter 2022\Comp_Sci 339\Lab 2\comp_sci-339-lab1\lib\hamcrest-core-1.3.jar;C:\Program Files\JetBrains\IntelliJ IDEA 2021.3.2\lib\ant\lib\ant-launcher.jar;C:\Program Files\JetBrains\IntelliJ IDEA 2021.3.2\lib\ant\lib\ant.jar;C:\Program Files\JetBrains\IntelliJ IDEA 2021.3.2\lib\ant\lib\ant-junit.jar;C:\Program Files\JetBrains\IntelliJ IDEA 2021.3.2\lib\ant\lib\ant-junit4.jar" />
+    <property name="dist" value="C:\Users\danie\OneDrive - Northwestern University\Desktop\2021-2022 Academic Year\Winter 2022\Comp_Sci 339\Lab 2\comp_sci-339-lab1\dist" />
+    <property name="build.src" value="C:\Users\danie\OneDrive - Northwestern University\Desktop\2021-2022 Academic Year\Winter 2022\Comp_Sci 339\Lab 2\comp_sci-339-lab1\bin\src" />
+    <property name="java.vm.vendor" value="Oracle Corporation" />
+    <property name="test.reports" value="C:\Users\danie\OneDrive - Northwestern University\Desktop\2021-2022 Academic Year\Winter 2022\Comp_Sci 339\Lab 2\comp_sci-339-lab1\testreport" />
+    <property name="ant.file.simpledb" value="C:\Users\danie\OneDrive - Northwestern University\Desktop\2021-2022 Academic Year\Winter 2022\Comp_Sci 339\Lab 2\comp_sci-339-lab1\build.xml" />
+    <property name="sun.arch.data.model" value="64" />
+    <property name="user.variant" value="" />
+    <property name="compile.debug" value="true" />
+    <property name="java.vendor.url" value="https://java.oracle.com/" />
+    <property name="java.vm.specification.version" value="14" />
+    <property name="os.name" value="Windows 10" />
+    <property name="sun.java.launcher" value="SUN_STANDARD" />
+    <property name="user.country" value="US" />
+    <property name="sun.boot.library.path" value="C:\Program Files\Java\jdk-14.0.2\bin" />
+    <property name="sun.java.command" value="org.apache.tools.ant.taskdefs.optional.junit.JUnitTestRunner simpledb.systemtest.ScanTest skipNonTests=false filtertrace=true haltOnError=false haltOnFailure=false formatter=org.apache.tools.ant.taskdefs.optional.junit.SummaryJUnitResultFormatter showoutput=false outputtoformatters=true logfailedtests=true threadid=0 logtestlistenerevents=false formatter=org.apache.tools.ant.taskdefs.optional.junit.PlainJUnitResultFormatter formatter=org.apache.tools.ant.taskdefs.optional.junit.XMLJUnitResultFormatter,C:\Users\danie\OneDrive - Northwestern University\Desktop\2021-2022 Academic Year\Winter 2022\Comp_Sci 339\Lab 2\comp_sci-339-lab1\testreport\TEST-simpledb.systemtest.ScanTest.xml formatter=org.apache.tools.ant.taskdefs.optional.junit.PlainJUnitResultFormatter,C:\Users\danie\OneDrive - Northwestern University\Desktop\2021-2022 Academic Year\Winter 2022\Comp_Sci 339\Lab 2\comp_sci-339-lab1\testreport\TEST-simpledb.systemtest.ScanTest.txt crashfile=C:\Users\danie\OneDrive - Northwestern University\Desktop\2021-2022 Academic Year\Winter 2022\Comp_Sci 339\Lab 2\comp_sci-339-lab1\junitvmwatcher1114807821332779693.properties propsfile=C:\Users\danie\OneDrive - Northwestern University\Desktop\2021-2022 Academic Year\Winter 2022\Comp_Sci 339\Lab 2\comp_sci-339-lab1\junit4441082547419552046.properties" />
+    <property name="jdk.debug" value="release" />
+    <property name="sun.cpu.endian" value="little" />
+    <property name="user.home" value="C:\Users\danie" />
+    <property name="user.language" value="en" />
+    <property name="java.specification.vendor" value="Oracle Corporation" />
+    <property name="java.version.date" value="2020-07-14" />
+    <property name="java.home" value="C:\Program Files\Java\jdk-14.0.2" />
+    <property name="basedir" value="C:\Users\danie\OneDrive - Northwestern University\Desktop\2021-2022 Academic Year\Winter 2022\Comp_Sci 339\Lab 2\comp_sci-339-lab1" />
+    <property name="file.separator" value="\" />
+    <property name="java.vm.compressedOopsMode" value="32-bit" />
+    <property name="line.separator" value="&#xd;&#xa;" />
+    <property name="ant.java.version" value="14" />
+    <property name="java.specification.name" value="Java Platform API Specification" />
+    <property name="java.vm.specification.vendor" value="Oracle Corporation" />
+    <property name="doc" value="C:\Users\danie\OneDrive - Northwestern University\Desktop\2021-2022 Academic Year\Winter 2022\Comp_Sci 339\Lab 2\comp_sci-339-lab1\javadoc" />
+    <property name="user.script" value="" />
+    <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers" />
+    <property name="jarfile" value="C:\Users\danie\OneDrive - Northwestern University\Desktop\2021-2022 Academic Year\Winter 2022\Comp_Sci 339\Lab 2\comp_sci-339-lab1\dist\simpledb.jar" />
+    <property name="java.runtime.version" value="14.0.2+12-46" />
+    <property name="user.name" value="danie" />
+    <property name="ant.file" value="C:\Users\danie\OneDrive - Northwestern University\Desktop\2021-2022 Academic Year\Winter 2022\Comp_Sci 339\Lab 2\comp_sci-339-lab1\build.xml" />
+    <property name="path.separator" value=";" />
+    <property name="os.version" value="10.0" />
+    <property name="build.test" value="C:\Users\danie\OneDrive - Northwestern University\Desktop\2021-2022 Academic Year\Winter 2022\Comp_Sci 339\Lab 2\comp_sci-339-lab1\bin\test" />
+    <property name="java.runtime.name" value="Java(TM) SE Runtime Environment" />
+    <property name="ant.project.invoked-targets" value="test-report" />
+    <property name="file.encoding" value="Cp1252" />
+    <property name="java.vm.name" value="Java HotSpot(TM) 64-Bit Server VM" />
+    <property name="depcache" value="C:\Users\danie\OneDrive - Northwestern University\Desktop\2021-2022 Academic Year\Winter 2022\Comp_Sci 339\Lab 2\comp_sci-339-lab1\bin\depcache" />
+    <property name="ant.core.lib" value="C:\Program Files\JetBrains\IntelliJ IDEA 2021.3.2\lib\ant\lib\ant.jar" />
+    <property name="java.vendor.url.bug" value="https://bugreport.java.com/bugreport/" />
+    <property name="java.io.tmpdir" value="C:\Users\danie\AppData\Local\Temp\" />
+    <property name="src" value="C:\Users\danie\OneDrive - Northwestern University\Desktop\2021-2022 Academic Year\Winter 2022\Comp_Sci 339\Lab 2\comp_sci-339-lab1\src" />
+    <property name="java.version" value="14.0.2" />
+    <property name="user.dir" value="C:\Users\danie\OneDrive - Northwestern University\Desktop\2021-2022 Academic Year\Winter 2022\Comp_Sci 339\Lab 2\comp_sci-339-lab1" />
+    <property name="os.arch" value="amd64" />
+    <property name="java.vm.specification.name" value="Java Virtual Machine Specification" />
+    <property name="ant.home" value="C:\Program Files\JetBrains\IntelliJ IDEA 2021.3.2\lib\ant" />
+    <property name="ant.file.type.simpledb" value="file" />
+    <property name="sun.os.patch.level" value="" />
+    <property name="ant.version" value="Apache Ant(TM) version 1.10.5 compiled on July 10 2018" />
+    <property name="java.library.path" value="C:\Program Files\Java\jdk-14.0.2\bin;C:\WINDOWS\Sun\Java\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\Python38\Scripts\;C:\Python38\;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.1\bin;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.1\libnvvp;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files\NVIDIA Corporation\NVIDIA NvDLISR;C:\Program Files\MATLAB\R2020a\bin;C:\Program Files\Java\jdk-14.0.2\bin;C:\Program Files\Microsoft SQL Server\130\Tools\Binn\;C:\Program Files\Microsoft SQL Server\Client SDK\ODBC\170\Tools\Binn\;C:\Program Files\nodejs\;C:\ProgramData\chocolatey\bin;C:\Program Files\Git\cmd;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\NVIDIA Corporation\Nsight Compute 2020.2.0\;C:\Program Files (x86)\QuickTime\QTSystem\;C:\Program Files\dotnet\;C:\Program Files\PostgreSQL\14\bin;C:\Python38\Scripts\;C:\Python38\;C:\Program Files\MySQL\MySQL Shell 8.0\bin\;C:\Users\danie\AppData\Local\Programs\Python\Python37\Scripts\;C:\Users\danie\AppData\Local\Programs\Python\Python37\;C:\Users\danie\AppData\Local\Microsoft\WindowsApps;C:\Program Files\JetBrains\IntelliJ IDEA Community Edition 2020.2\bin;;C:\Users\danie\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\danie\AppData\Roaming\npm;C:\Users\danie\AppData\Local\GitHubDesktop\bin;C:\Users\danie\.dotnet\tools;C:\Program Files (x86)\apache-ant-1.10.12\bin;;." />
+    <property name="java.vm.info" value="mixed mode, sharing" />
+    <property name="java.vendor" value="Oracle Corporation" />
+    <property name="build" value="C:\Users\danie\OneDrive - Northwestern University\Desktop\2021-2022 Academic Year\Winter 2022\Comp_Sci 339\Lab 2\comp_sci-339-lab1\bin" />
+    <property name="java.vm.version" value="14.0.2+12-46" />
+    <property name="sun.io.unicode.encoding" value="UnicodeLittle" />
+    <property name="java.class.version" value="58.0" />
+    <property name="ant.project.default-target" value="dist" />
+  </properties>
+  <testcase classname="simpledb.systemtest.ScanTest" name="testTupleDesc" time="0.059" />
+  <testcase classname="simpledb.systemtest.ScanTest" name="testCache" time="0.472" />
+  <testcase classname="simpledb.systemtest.ScanTest" name="testSmall" time="1.582" />
+  <testcase classname="simpledb.systemtest.ScanTest" name="testRewind" time="0.013" />
+  <system-out><![CDATA[722662196
+0
+722662196
+1
+722662196
+2
+722662196
+3
+722662196
+4
+722662196
+5
+722662196
+6
+722662196
+7
+722662196
+8
+722662196
+9
+722662196
+10
+722662196
+11
+722662196
+12
+722662196
+13
+722662196
+14
+722662196
+15
+722662196
+16
+722662196
+17
+722662196
+18
+722662196
+19
+722662196
+20
+722662196
+21
+722662196
+22
+722662196
+23
+722662196
+24
+722662196
+25
+722662196
+26
+722662196
+27
+722662196
+28
+722662196
+29
+-412809073
+0
+909484444
+0
+2120745890
+0
+-1367251424
+0
+868499179
+0
+673475274
+0
+-1447833018
+0
+-1447833018
+1
+1080462242
+0
+1080462242
+1
+1305141096
+0
+1305141096
+1
+-834902516
+0
+-834902516
+1
+-834902516
+2
+-834902516
+3
+-834902516
+4
+-834902516
+5
+-2022372401
+0
+-881532873
+0
+-381531674
+0
+1409218345
+0
+1409218345
+1
+814709799
+0
+814709799
+1
+1341197164
+0
+1341197164
+1
+-975112819
+0
+-975112819
+1
+-975112819
+2
+-706618370
+0
+-706618370
+1
+-706618370
+2
+-607873371
+0
+-607873371
+1
+-607873371
+2
+709880214
+0
+709880214
+1
+709880214
+2
+709880214
+3
+709880214
+4
+709880214
+5
+709880214
+6
+709880214
+7
+709880214
+8
+709880214
+9
+709880214
+10
+2110604642
+0
+-149298225
+0
+-101839609
+0
+-808695639
+0
+-808695639
+1
+291383323
+0
+291383323
+1
+718794633
+0
+718794633
+1
+-1908239526
+0
+-1908239526
+1
+-1908239526
+2
+-1908239526
+3
+-1185521419
+0
+-1185521419
+1
+-1185521419
+2
+-1185521419
+3
+1598183101
+0
+1598183101
+1
+1598183101
+2
+1598183101
+3
+-1922375947
+0
+-1922375947
+1
+-1922375947
+2
+-1922375947
+3
+-1922375947
+4
+-1922375947
+5
+-1922375947
+6
+-1922375947
+7
+-1922375947
+8
+-1922375947
+9
+-1922375947
+10
+-1922375947
+11
+-1922375947
+12
+-1922375947
+13
+-1922375947
+14
+-1922375947
+15
+-1922375947
+16
+1712066424
+0
+-2049877370
+0
+1349383889
+0
+-1488509058
+0
+-1488509058
+1
+-1488509058
+2
+340774114
+0
+340774114
+1
+340774114
+2
+1629208627
+0
+1629208627
+1
+1629208627
+2
+473599252
+0
+473599252
+1
+473599252
+2
+473599252
+3
+473599252
+4
+1032712867
+0
+1032712867
+1
+1032712867
+2
+1032712867
+3
+1032712867
+4
+1634370451
+0
+1634370451
+1
+1634370451
+2
+1634370451
+3
+1634370451
+4
+-170775833
+0
+-170775833
+1
+-170775833
+2
+-170775833
+3
+-170775833
+4
+-170775833
+5
+-170775833
+6
+-170775833
+7
+-170775833
+8
+-170775833
+9
+-170775833
+10
+-170775833
+11
+-170775833
+12
+-170775833
+13
+-170775833
+14
+-170775833
+15
+-170775833
+16
+-170775833
+17
+-170775833
+18
+-170775833
+19
+-170775833
+20
+-170775833
+21
+515497662
+0
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

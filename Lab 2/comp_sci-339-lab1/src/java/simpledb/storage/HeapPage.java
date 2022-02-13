@@ -60,7 +60,7 @@ public class HeapPage implements Page {
             // allocate and read the actual records of this page
             for (int i=0; i<tuples.length; i++)
                 tuples[i] = readNextTuple(dis,i);
-        }catch(NoSuchElementException e){
+        } catch(NoSuchElementException e){
             e.printStackTrace();
         }
         dis.close();
@@ -73,7 +73,10 @@ public class HeapPage implements Page {
     */
     private int getNumTuples() {        
         // some code goes here
-        return 0;
+        //math in accordance to _tuples per page_ thing in assignment doc
+        //intellij is getting angry with me if I say 8 soooo 8.0?
+        return (int) Math.floor((BufferPool.getPageSize() * 8.0) / (td.getSize() * 8 + 1));
+//        return (int) (BufferPool.getPageSize() * 8.0) / (td.getSize() * 8 + 1);
 
     }
 
@@ -82,9 +85,9 @@ public class HeapPage implements Page {
      * @return the number of bytes in the header of a page in a HeapFile with each tuple occupying tupleSize bytes
      */
     private int getHeaderSize() {        
-        
+        // header same idea as numtuples
         // some code goes here
-        return 0;
+        return (int) Math.ceil(getNumTuples() / 8.0);
                  
     }
     
@@ -118,7 +121,7 @@ public class HeapPage implements Page {
      */
     public HeapPageId getId() {
     // some code goes here
-    throw new UnsupportedOperationException("implement this");
+        return pid;
     }
 
     /**
@@ -288,7 +291,14 @@ public class HeapPage implements Page {
      */
     public int getNumEmptySlots() {
         // some code goes here
-        return 0;
+        int count1 = 0;
+        int count2 = 0;
+        while (count1 < this.numSlots)
+        {
+            if (!this.isSlotUsed(count1)) {count2++;}
+            count1++;
+        }
+        return count2;
     }
 
     /**
@@ -296,7 +306,12 @@ public class HeapPage implements Page {
      */
     public boolean isSlotUsed(int i) {
         // some code goes here
-        return false;
+        // return here later, holy shit I have no clue
+        try {
+            return (header[i / 8] & (1 << (i % 8))) != (byte) 0;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     /**
@@ -313,7 +328,48 @@ public class HeapPage implements Page {
      */
     public Iterator<Tuple> iterator() {
         // some code goes here
-        return null;
+        class Hpi implements Iterator<Tuple> {
+            private HeapPage hp;
+            private int counter;
+
+            public Hpi (HeapPage hp) {
+                this.hp = hp;
+                this.counter = 0;
+            }
+
+            @Override
+            public boolean hasNext() {
+                int i = counter;
+                while (i < hp.numSlots) {
+                    if (hp.isSlotUsed(i)) {return true;}
+                    i++;
+                }
+                return false;
+            }
+
+            @Override
+            public Tuple next() {
+                Tuple result;
+                while (counter < hp.numSlots) {
+                    if (hp.isSlotUsed(counter)) {
+                        result = hp.tuples[counter];
+                        counter++;
+                        return result;
+                    } else {
+                        counter++;
+                    }
+
+                }
+                throw new NoSuchElementException();
+            }
+
+            @Override
+            public void remove() {
+                throw new UnsupportedOperationException();
+            }
+        }
+
+        return new Hpi(this);
     }
 
 }

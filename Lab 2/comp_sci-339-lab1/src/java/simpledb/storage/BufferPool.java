@@ -8,6 +8,7 @@ import simpledb.transaction.TransactionAbortedException;
 import simpledb.transaction.TransactionId;
 
 import java.io.*;
+import java.util.*;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -79,13 +80,16 @@ public class BufferPool {
     public  Page getPage(TransactionId tid, PageId pid, Permissions perm)
         throws TransactionAbortedException, DbException {
         // some code goes here
-        try return bufferpool.get(pid);
-        catch(Exception e)
-        {
+        if (bufferpool.get(pid) != null) {
+            return bufferpool.get(pid);
+        } else {
             //no need for eviction policy?
-            throw DbException("Not found in buffer pool");
+//            throw new DbException("Not found in buffer pool");
+            Page toadd = Database.getCatalog().getDatabaseFile(pid.getTableId()).readPage(pid);
+            bufferpool.put(pid, toadd);
+            return toadd;
         }
-        throw TransactionAbortedException("error in bufferpool call! this is L88");
+//        throw new TransactionAbortedException("error in bufferpool call! this is L88");
     }
 
     /**

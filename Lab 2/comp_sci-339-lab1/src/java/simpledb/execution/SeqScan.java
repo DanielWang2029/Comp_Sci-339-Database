@@ -8,7 +8,8 @@ import simpledb.common.DbException;
 import simpledb.storage.DbFileIterator;
 import simpledb.storage.Tuple;
 import simpledb.storage.TupleDesc;
-
+//how to get iterator without file? might as well import file
+import simpledb.storage.DbFile;
 import java.util.*;
 
 /**
@@ -19,7 +20,11 @@ import java.util.*;
 public class SeqScan implements OpIterator {
 
     private static final long serialVersionUID = 1L;
-
+    private TransactionId tid;
+    private int tableid;
+    private String tableAlias;
+    private DbFile file;
+    private DbFileIterator iter;
     /**
      * Creates a sequential scan over the specified table as a part of the
      * specified transaction.
@@ -37,7 +42,11 @@ public class SeqScan implements OpIterator {
      *            tableAlias.null, or null.null).
      */
     public SeqScan(TransactionId tid, int tableid, String tableAlias) {
-        // some code goes here
+        this.tid = tid;
+        this.tableid = tableid;
+        this.tableAlias = tableAlias;
+        this.file = Database.getCatalog().getDatabaseFile(tableid);
+        this.iter = file.iterator(tid);
     }
 
     /**
@@ -46,7 +55,8 @@ public class SeqScan implements OpIterator {
      *       be the actual name of the table in the catalog of the database
      * */
     public String getTableName() {
-        return null;
+        // didn't say some code goes here originally, but I assume that is typo
+        return Database.getCatalog().getTableName(tableid);
     }
 
     /**
@@ -55,7 +65,7 @@ public class SeqScan implements OpIterator {
     public String getAlias()
     {
         // some code goes here
-        return null;
+        return tableAlias;
     }
 
     /**
@@ -72,14 +82,21 @@ public class SeqScan implements OpIterator {
      */
     public void reset(int tableid, String tableAlias) {
         // some code goes here
+        this.tableid = tableid;
+        this.tableAlias = tableAlias;
+        //if reset, we change the file and iter too?
+        this.file = Database.getCatalog().getDatabaseFile(tableid);
+        this.iter = file.iterator(tid);
     }
 
     public SeqScan(TransactionId tid, int tableId) {
         this(tid, tableId, Database.getCatalog().getTableName(tableId));
     }
-
+    //by importing dbfile and using the file for the iterator, this should be much easier
     public void open() throws DbException, TransactionAbortedException {
         // some code goes here
+        iter.open();
+
     }
 
     /**
@@ -94,26 +111,42 @@ public class SeqScan implements OpIterator {
      */
     public TupleDesc getTupleDesc() {
         // some code goes here
-        return null;
+        TupleDesc data = Database.getCatalog().getTupleDesc(tableid);
+        int arrsize = data.numFields();
+        //tupledesc needs types and fields
+        //merge in td was better for arraylists, but since we already know the tdlist, we might as well just use array
+        Type[] types = new Type[arrsize];
+        String[] fields = new String[arrsize];
+        for(int i = 0; i < arrsize; i++)
+        {
+            types[i] = data.getFieldType(i);
+            StringBuilder sb = new StringBuilder();
+            //no idea what valueOf has to deal w the fact that the sb.append should be a string
+            //I miss python
+            fields[i] = String.valueOf(sb.append(tableAlias).append(".").append(data.getFieldName(i)));
+        }
+        return new TupleDesc(types, fields);
     }
 
     public boolean hasNext() throws TransactionAbortedException, DbException {
         // some code goes here
-        return false;
+        return iter.hasNext();
     }
 
     public Tuple next() throws NoSuchElementException,
             TransactionAbortedException, DbException {
         // some code goes here
-        return null;
+        return iter.next();
     }
 
     public void close() {
         // some code goes here
+        iter.close();
     }
 
     public void rewind() throws DbException, NoSuchElementException,
             TransactionAbortedException {
         // some code goes here
+        iter.rewind();
     }
 }

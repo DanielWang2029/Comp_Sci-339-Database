@@ -33,8 +33,8 @@ public class Catalog {
             this.file = file;
             this.name = name;
             this.primary_key = primary_key;
-
         }
+
     }
 
     private HashMap<String, Table> NameCat;
@@ -61,7 +61,9 @@ public class Catalog {
      */
     public void addTable(DbFile file, String name, String pkeyField) {
         // some code goes here
-        Table insertable = new Table(file, name, pkeyField);
+        Table insertable = new Table(file, pkeyField, name);
+//        System.out.println(name);
+//        System.out.println(insertable.name);
         this.NameCat.put(name, insertable);
         this.IDCat.put(file.getId(), insertable);
     }
@@ -87,11 +89,10 @@ public class Catalog {
      */
     public int getTableId(String name) throws NoSuchElementException {
         // some code goes here
-        if(this.NameCat.get(name) == null) throw new NoSuchElementException();
-        else
-        {
-            DbFile target = this.NameCat.get(name).file;
-            return target.getId();
+        try {
+            return this.NameCat.get(name).file.getId();
+        } catch (Exception e) {
+            throw new NoSuchElementException();
         }
     }
 
@@ -103,12 +104,19 @@ public class Catalog {
      */
     public TupleDesc getTupleDesc(int tableid) throws NoSuchElementException {
         // some code goes here
-        if(this.IDCat.get(tableid) == null) throw new NoSuchElementException();
-        else
-        {
-            DbFile target = this.IDCat.get(tableid).file;
-            return target.getTupleDesc();
+        try {
+//            System.out.println(this.IDCat);
+//            System.out.println(tableid);
+            return this.IDCat.get(tableid).file.getTupleDesc();
+        } catch (Exception e) {
+            throw new NoSuchElementException();
         }
+//        assert this.IDCat != null;
+//        System.out.println(this.IDCat);
+//        System.out.println(tableid);
+//        assert this.IDCat.get(tableid) != null;
+//        assert this.IDCat.get(tableid).file != null;
+//        return this.IDCat.get(tableid).file.getTupleDesc();
     }
 
     /**
@@ -119,19 +127,19 @@ public class Catalog {
      */
     public DbFile getDatabaseFile(int tableid) throws NoSuchElementException {
         // some code goes here
-        if(this.IDCat.get(tableid) == null) throw new NoSuchElementException();
-        else
-        {
+        try {
             return this.IDCat.get(tableid).file;
+        } catch (Exception e) {
+            throw new NoSuchElementException();
         }
     }
 
     public String getPrimaryKey(int tableid) {
         // some code goes here
-        if(this.IDCat.get(tableid) == null) throw new NoSuchElementException();
-        else
-        {
+        try {
             return this.IDCat.get(tableid).primary_key;
+        } catch (Exception e) {
+            throw new NoSuchElementException();
         }
     }
 
@@ -142,11 +150,18 @@ public class Catalog {
 
     public String getTableName(int id) {
         // some code goes here
-        if(this.IDCat.get(id) == null) throw new NoSuchElementException();
-        else
-        {
+        try {
             return this.IDCat.get(id).name;
+        } catch (Exception e) {
+            throw new NoSuchElementException();
         }
+//        if (this.IDCat.get(id) == null) {
+//            assert false;
+//        } else {
+//            System.out.println(this.IDCat.get(id).name);
+//            return this.IDCat.get(id).name;
+//        }
+//        return null;
     }
     
     /** Delete all tables from the catalog */

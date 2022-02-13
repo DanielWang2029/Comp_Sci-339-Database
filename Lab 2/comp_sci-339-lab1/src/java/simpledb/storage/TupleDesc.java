@@ -115,7 +115,6 @@ public class TupleDesc implements Serializable {
             return TDList.get(i).fieldName;
         }
         catch(IndexOutOfBoundsException e) {
-            System.out.println("yeet yaw");
             throw new NoSuchElementException("Invalid index");
         }
     }
@@ -136,7 +135,6 @@ public class TupleDesc implements Serializable {
             return TDList.get(i).fieldType;
         }
         catch(IndexOutOfBoundsException e) {
-            System.out.println("yeet yaw");
             throw new NoSuchElementException("Invalid index");
         }
     }
@@ -151,6 +149,7 @@ public class TupleDesc implements Serializable {
      *             if no field with a matching name is found.
      */
     public int fieldNameToIndex(String name) throws NoSuchElementException {
+        if (name == null) {throw new NoSuchElementException();}
         int index = -1;
         for (int i = 0; i < TDList.size(); i++) {
             if (name.equals(TDList.get(i).fieldName)) {
@@ -222,14 +221,17 @@ public class TupleDesc implements Serializable {
 
     public boolean equals(Object o) {
         // some code goes here
-        if (!(o instanceof TupleDesc td))
-            return false;
-        if (this.numFields() == td.numFields()) {
-            for (int i = 0; i < this.numFields(); i++){
-                if (!this.getFieldType(i).equals(td.getFieldType(i)))
-                    return false;
+        try {
+            TupleDesc td = (TupleDesc) o;
+            if (this.numFields() == td.numFields()) {
+                for (int i = 0; i < this.numFields(); i++){
+                    if (!this.getFieldType(i).equals(td.getFieldType(i)))
+                        return false;
+                }
+                return true;
             }
-            return true;
+        } catch (Exception e) {
+            return false;
         }
         return false;
     }
