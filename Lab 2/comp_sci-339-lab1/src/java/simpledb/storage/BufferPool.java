@@ -28,7 +28,8 @@ public class BufferPool {
     private static final int DEFAULT_PAGE_SIZE = 4096;
 
     private static int pageSize = DEFAULT_PAGE_SIZE;
-    
+    private HashMap<PageId, Page> bufferpool;
+    private int maxPages;
     /** Default number of pages passed to the constructor. This is used by
     other classes. BufferPool should use the numPages argument to the
     constructor instead. */
@@ -41,12 +42,15 @@ public class BufferPool {
      */
     public BufferPool(int numPages) {
         // some code goes here
+        bufferpool = new HashMap<PageId, Page>();
+        maxPages = numPages;
     }
     
     public static int getPageSize() {
       return pageSize;
     }
-    
+    //we test the old fashioned way: prayers hehe
+    //and walking through the code manually this can only be as big a disaster as we make it
     // THIS FUNCTION SHOULD ONLY BE USED FOR TESTING!!
     public static void setPageSize(int pageSize) {
     	BufferPool.pageSize = pageSize;
@@ -75,7 +79,13 @@ public class BufferPool {
     public  Page getPage(TransactionId tid, PageId pid, Permissions perm)
         throws TransactionAbortedException, DbException {
         // some code goes here
-        return null;
+        try return bufferpool.get(pid);
+        catch(Exception e)
+        {
+            //no need for eviction policy?
+            throw DbException("Not found in buffer pool");
+        }
+        throw TransactionAbortedException("error in bufferpool call! this is L88");
     }
 
     /**

@@ -5,6 +5,8 @@ import java.util.Objects;
 /** Unique identifier for HeapPage objects. */
 public class HeapPageId implements PageId {
 
+    private int tableId;
+    private int pgNo;
     /**
      * Constructor. Create a page id structure for a specific page of a
      * specific table.
@@ -13,13 +15,14 @@ public class HeapPageId implements PageId {
      * @param pgNo The page number in that table.
      */
     public HeapPageId(int tableId, int pgNo) {
-        // some code goes here
+        tableId = tableId;
+        pgNo = pgNo;
     }
 
     /** @return the table associated with this PageId */
     public int getTableId() {
         // some code goes here
-        return 0;
+        return tableID;
     }
 
     /**
@@ -28,7 +31,7 @@ public class HeapPageId implements PageId {
      */
     public int getPageNumber() {
         // some code goes here
-        return 0;
+        return pgNo;
     }
 
     /**
@@ -39,7 +42,8 @@ public class HeapPageId implements PageId {
      */
     public int hashCode() {
         // some code goes here
-        throw new UnsupportedOperationException("implement this");
+        stringBuilder = new StringBuilder();
+        return = int(stringBuilder().append(tableId.toString()).append(pgNo.toString()));
     }
 
     /**
@@ -51,7 +55,11 @@ public class HeapPageId implements PageId {
      */
     public boolean equals(Object o) {
         // some code goes here
-        return false;
+        try{testo = (PageId) o}
+        catch(exception e){
+            return false
+        }
+        return testo.getTableId() == this.getTableID() && testo.pageNumber() == this.pageNumber();
     }
 
     /**
